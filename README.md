@@ -1,0 +1,1 @@
+# test-generate-user-struct
