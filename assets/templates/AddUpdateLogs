@@ -1,0 +1,25 @@
+package models
+
+type ActionInfo struct {
+	UserId        int
+	Username      string
+	Role          UserRole
+	Endpoint      string
+	RemoteAddress string
+	params        map[string]interface{}
+}
+
+func (u *User) LogAdd(ai *ActionInfo, parentId *int) (*UserLog, error) {
+	var jsonSupInfo json.RawMessage
+	var err error
+	jsonSupInfo, err = json.Marshal(map[string]interface{}{
+		{{range .Fields}}
+			"{{ .First }}":u.{{ .Second }},
+		{{end}}
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return u.SetUserLog(ai, ActionUserAdd, parentId, &jsonSupInfo), nil
+}
